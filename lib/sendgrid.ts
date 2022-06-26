@@ -4,14 +4,14 @@ async function sendCodeEmail(email: string, code: number, expires) {
 	const msg = {
 		to: email, // Change to your recipient
 		from: "fibarrola06@gmail.com", // Change to your verified sender
-		subject: "Sending with SendGrid is Fun",
-		text: "and easy to do anywhere, even with Node.js",
+		subject: "BoMarket",
+		text: "Este es el codigo que necesita para ingresar a BoMarket",
 		html:
-			"<strong>CODIGO:" +
+			"<strong>CODIGO: " +
 			code +
-			" al email" +
+			" al email " +
 			email +
-			" y expira " +
+			" y expira: " +
 			expires +
 			" </strong>",
 	};
