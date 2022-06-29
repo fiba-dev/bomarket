@@ -1,4 +1,4 @@
 const algoliasearch = require("algoliasearch");
 
-const client = algoliasearch("X0SLA2BKMW", "1277ad5ef7f257467ae77af406c07c82");
+const client = algoliasearch(process.env.ALGOLIA_ID, process.env.ALGOLIA_KEY);
 export const productIndex = client.initIndex("products");

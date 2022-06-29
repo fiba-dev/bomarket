@@ -1,4 +1,4 @@
 import Airtable from "airtable";
-export const airtableBase = new Airtable({ apiKey: "keytoxOu0RJbPYfI5" }).base(
-	"appVeJYs9gXFewzsX"
-);
+export const airtableBase = new Airtable({
+	apiKey: process.env.AIRTABLE_KEY,
+}).base(process.env.AIRTABLE_BASE);
