@@ -19,8 +19,9 @@ export async function getProduct(objectId) {
 		);
 		console.log("SOY PRODUCT", product.object.UserId);
 		const phone = await getPhoneUser(product.object.UserId);
+		product.object.phone = phone;
 
-		return { product, phone };
+		return product;
 	} catch (error) {
 		return false;
 	}
