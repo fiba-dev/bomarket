@@ -1,6 +1,7 @@
 import { firestore } from "lib/firestore";
 const collection = firestore.collection("orders");
-
+import { airtableBase } from "lib/airtable";
+import { cloudinary } from "../lib/cloudinary";
 export class Product {
 	ref: FirebaseFirestore.DocumentReference;
 	data: any;
@@ -16,10 +17,83 @@ export class Product {
 	async push() {
 		this.ref.update(this.data);
 	}
-	static async createNewProduct(newProductData = {}) {
-		const newProductSnap = await collection.add(newProductData);
-		const newProduct = new Product(newProductSnap.id);
-		newProduct.data = newProductData;
-		return newProduct;
+
+	static async UpdateProduct(productData, userId) {
+		if (productData.images) {
+			const imagenURL = await cloudinary.uploader.upload(productData.images, {
+				resource_type: "image",
+				discard_original_filename: true,
+				width: 1000,
+			});
+			airtableBase("Products").update(
+				[
+					{
+						id: productData.id,
+						fields: {
+							Name: productData.name,
+							Description: productData.description,
+							"Unit cost": productData.price,
+							Images: [
+								{
+									url: imagenURL.secure_url,
+								},
+							],
+							Category: productData.category,
+							Stock: productData.stock,
+							UserId: userId,
+						} as any,
+					},
+				],
+				function (err, records) {
+					if (err) {
+						console.error(err);
+						return;
+					}
+					records.forEach(function (record) {
+						return record.getId();
+					});
+				}
+			);
+		}
+	}
+	static async createNewProduct(newProductData: any, userId: string) {
+		if (newProductData.images) {
+			const imagenURL = await cloudinary.uploader.upload(
+				newProductData.images,
+				{
+					resource_type: "image",
+					discard_original_filename: true,
+					width: 1000,
+				}
+			);
+			airtableBase("Products").create(
+				[
+					{
+						fields: {
+							Name: newProductData.name,
+							Description: newProductData.description,
+							"Unit cost": newProductData.price,
+							Images: [
+								{
+									url: imagenURL.secure_url,
+								},
+							],
+							Category: newProductData.category,
+							Stock: newProductData.stock,
+							UserId: userId,
+						} as any,
+					},
+				],
+				function (err, records) {
+					if (err) {
+						console.error(err);
+						return;
+					}
+					records.forEach(function (record) {
+						return record.getId();
+					});
+				}
+			);
+		}
 	}
 }
