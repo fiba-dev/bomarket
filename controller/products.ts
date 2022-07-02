@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import methods from "micro-method-router";
 import { productIndex } from "lib/algolia";
 import { Product } from "models/products";
+import { getPhoneUser } from "./users";
 
 function getOffsetAndLimit(req: NextApiRequest, maxLimit, maxOffset) {
 	const queryOffset = parseInt(req.query.offset as string);
@@ -12,7 +13,14 @@ function getOffsetAndLimit(req: NextApiRequest, maxLimit, maxOffset) {
 }
 export async function getProduct(objectId) {
 	try {
-		return await productIndex.findObject((hit) => hit.objectID == objectId, {});
+		const product = await productIndex.findObject(
+			(hit) => hit.objectID == objectId,
+			{}
+		);
+		console.log("SOY PRODUCT", product.object.UserId);
+		const phone = await getPhoneUser(product.object.UserId);
+
+		return { product, phone };
 	} catch (error) {
 		return false;
 	}
