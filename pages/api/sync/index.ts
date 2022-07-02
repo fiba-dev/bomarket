@@ -5,8 +5,7 @@ import { airtableBase } from "lib/airtable";
 import { productIndex } from "lib/algolia";
 import { receiveMessageOnPort } from "worker_threads";
 
-export default function (req: NextApiRequest, res: NextApiResponse) {
-	// console.log(lista);
+export default function Sync(req: NextApiRequest, res: NextApiResponse) {
 	const { offset, limit } = getOffsetAndLimit(req, 100, 10000);
 
 	airtableBase("Products")
@@ -32,7 +31,7 @@ export default function (req: NextApiRequest, res: NextApiResponse) {
 					console.log(err);
 					return;
 				}
-				res.send("TERMINO");
+				res.send(true);
 			}
 		);
 }
