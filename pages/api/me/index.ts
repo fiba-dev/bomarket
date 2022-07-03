@@ -6,27 +6,27 @@ import { authMiddlewareCors } from "lib/init-middleware";
 import * as yup from "yup";
 
 async function getUser(req: NextApiRequest, res: NextApiResponse, token) {
-  const user = await getUserFromId(token.userId);
+	const user = await getUserFromId(token.userId);
 
-  res.send(user.data);
+	res.send(user.data);
 }
 
 async function setUser(req: NextApiRequest, res: NextApiResponse, token) {
-  const user = await getUserFromId(token.userId);
+	const user = await getUserFromId(token.userId);
 
-  if (req.body) {
-    await editUser(req.body, user);
-  } else {
-    return res.status(400).send({
-      message: "FALTAN DATOS",
-    });
-  }
-  res.send(true);
+	if (req.body) {
+		await editUser(req.body, user);
+	} else {
+		return res.status(400).send({
+			message: "FALTAN DATOS",
+		});
+	}
+	res.send(true);
 }
 
 const handlerAuth = method({
-  get: getUser,
-  patch: setUser,
+	get: getUser,
+	patch: setUser,
 });
 
 export default authMiddlewareCors(authMiddleware(handlerAuth));

@@ -26,7 +26,11 @@ export async function editUser(body, user: User) {
 export async function getUserFromId(userId) {
 	const user = new User(userId);
 	await user.pull();
-	return user;
+	let userWhitId = {} as any;
+	userWhitId = user;
+	userWhitId.data.userId = userId;
+
+	return userWhitId;
 }
 export async function getEmailUser(userId) {
 	const results = new User(userId);
