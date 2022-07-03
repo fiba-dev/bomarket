@@ -26,7 +26,7 @@ async function postHandler(
 ) {
 	try {
 		await product.validate(req.body);
-		setOrUpdateProduct(req.body, userBody.userId);
+		await setOrUpdateProduct(req.body, userBody.userId);
 	} catch (error) {
 		res.status(404).send(error);
 	}
