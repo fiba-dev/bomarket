@@ -28,8 +28,8 @@ export async function getProduct(objectId) {
 }
 export async function setOrUpdateProduct(product, userId) {
 	if (product.id) {
-		Product.UpdateProduct(product, userId);
+		return await Product.UpdateProduct(product, userId);
 	} else {
-		Product.createNewProduct(product, userId);
+		return await Product.createNewProduct(product, userId);
 	}
 }

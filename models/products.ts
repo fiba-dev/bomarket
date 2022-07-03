@@ -2,6 +2,7 @@ import { firestore } from "lib/firestore";
 const collection = firestore.collection("orders");
 import { airtableBase } from "lib/airtable";
 import { cloudinary } from "../lib/cloudinary";
+import { id } from "date-fns/locale";
 export class Product {
 	ref: FirebaseFirestore.DocumentReference;
 	data: any;
@@ -25,6 +26,7 @@ export class Product {
 				discard_original_filename: true,
 				width: 1000,
 			});
+
 			airtableBase("Products").update(
 				[
 					{
@@ -47,11 +49,11 @@ export class Product {
 				function (err, records) {
 					if (err) {
 						console.error(err);
-						return;
+						return err;
 					}
-					records.forEach(function (record) {
-						return record.getId();
-					});
+					console.log(records[0].getId());
+
+					return records[0].getId();
 				}
 			);
 		}
@@ -66,7 +68,8 @@ export class Product {
 					width: 1000,
 				}
 			);
-			airtableBase("Products").create(
+
+			return airtableBase("Products").create(
 				[
 					{
 						fields: {
@@ -87,11 +90,10 @@ export class Product {
 				function (err, records) {
 					if (err) {
 						console.error(err);
-						return;
+						return err;
 					}
-					records.forEach(function (record) {
-						return record.getId();
-					});
+					console.log(records[0].getId());
+					return records[0].getId();
 				}
 			);
 		}
