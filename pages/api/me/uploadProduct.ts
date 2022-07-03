@@ -31,17 +31,6 @@ async function postHandler(
 		res.status(404).send(error);
 	}
 
-	// const { productId } = req.query;
-	// const product = await getProduct(productId);
-	// if (product == false) {
-	// 	return res.status(404).send({ message: "Product not found" });
-	// }
-	// const objectProduct = product.object;
-
-	// const order = await crearOrden(req.body, userBody.userId, productId);
-
-	// const pref = await createPreference(objectProduct, order, req.body.quantity);
-
 	res.send(true);
 }
 
