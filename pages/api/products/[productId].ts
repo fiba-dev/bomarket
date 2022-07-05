@@ -47,12 +47,15 @@ async function patchHandler(
 	try {
 		await querySchema.validate(req.query);
 		await product.validate(req.body);
-		await updateProduct(req.body, req.query.productId, userBody.userId);
+		let dato = await updateProduct(
+			req.body,
+			req.query.productId,
+			userBody.userId
+		);
+		res.send(dato);
 	} catch (error) {
 		res.status(404).send(error);
 	}
-
-	res.send(true);
 }
 
 async function deleteHandler(

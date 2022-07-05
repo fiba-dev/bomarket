@@ -29,7 +29,8 @@ export async function getProduct(objectId) {
 }
 export async function setProduct(product, userId) {
 	try {
-		return await Product.createNewProduct(product, userId);
+		await Product.createNewProduct(product, userId);
+		return true;
 	} catch (error) {
 		return error;
 	}
@@ -37,9 +38,10 @@ export async function setProduct(product, userId) {
 export async function updateProduct(product, productId, userId) {
 	let resultado = await getProduct(productId);
 	if (resultado) {
-		return await Product.UpdateProduct(product, productId, userId);
+		await Product.UpdateProduct(product, productId, userId);
+		return true;
 	} else {
-		throw new Error("NO HAY ID DE OBJETO");
+		throw "Producto Inexistente";
 	}
 }
 
