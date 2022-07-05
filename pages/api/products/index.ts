@@ -30,12 +30,11 @@ async function postHandler(
 ) {
 	try {
 		await product.validate(req.body);
-		await setProduct(req.body, userBody.userId);
+		let dato = await setProduct(req.body, userBody.userId);
+		res.send(dato);
 	} catch (error) {
 		res.status(404).send(error);
 	}
-
-	res.send(true);
 }
 
 const handler = methods({

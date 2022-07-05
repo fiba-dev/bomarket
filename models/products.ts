@@ -121,4 +121,22 @@ export class Product {
 			return error;
 		}
 	}
+
+	static async obtainProductsFromAirtable() {
+		let objects = [];
+		await airtableBase("Products")
+			.select({ maxRecords: 50 })
+			.all()
+			.then((records: any) => {
+				records.forEach((element) => {
+					element.fields.objectId = element.id;
+					objects.push(element.fields);
+				});
+			})
+			.catch((err) => {
+				// Handle error.
+			});
+
+		return objects;
+	}
 }
