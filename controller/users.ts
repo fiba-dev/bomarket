@@ -45,9 +45,22 @@ export async function getPhoneUser(userId) {
 	await results.pull();
 	if (results) {
 		const phone = results.data.phone;
+
 		console.log("SOY PHONE", phone);
 
 		return phone;
+	} else {
+		return null;
+	}
+}
+export async function getDescriptionUser(userId) {
+	const results = new User(userId);
+
+	await results.pull();
+
+	if (results) {
+		const description = results.data.description;
+		return description;
 	} else {
 		return null;
 	}
