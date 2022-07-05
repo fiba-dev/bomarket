@@ -55,3 +55,32 @@ export async function getAllProducts() {
 	});
 	return products;
 }
+export async function getProductsByCategory(products, category) {
+	let obj = [];
+	products.forEach((element) => {
+		if (element.Category == category) {
+			obj.push(element);
+		}
+	});
+	return obj;
+}
+export async function getProductWhitLessPrice(products: any) {
+	products.sort((a, b) => a["Unit cost"] - b["Unit cost"]);
+	console.log("SOY PRODUCTSCON MENOS PRECIO", products[0]);
+
+	return products[0];
+}
+
+export async function featuredProducts() {
+	const products = await Product.obtainProductsFromAirtable();
+
+	if (products) {
+		let teclados: any = await getProductsByCategory(products, "Teclados");
+		let audifonos: any = await getProductsByCategory(products, "Auriculares");
+		let mouse = await getProductsByCategory(products, "Mouse");
+		teclados = await getProductWhitLessPrice(teclados);
+		audifonos = await getProductWhitLessPrice(audifonos);
+		mouse = await getProductWhitLessPrice(mouse);
+		return [teclados, audifonos, mouse];
+	} else throw "No se encontraron Productos destacados";
+}
