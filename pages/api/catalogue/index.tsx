@@ -2,7 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getOffsetAndLimit } from "lib/request";
 import { catalogue } from "lib/algolia";
 import { authMiddlewareCors } from "lib/init-middleware";
-import { getDescriptionUser, getPhoneUser } from "controller/users";
+import {
+	getDescriptionUser,
+	getPhoneUser,
+	getPhotoUser,
+} from "controller/users";
 export default authMiddlewareCors(async function (
 	req: NextApiRequest,
 	res: NextApiResponse
@@ -15,9 +19,11 @@ export default authMiddlewareCors(async function (
 		offset: offset,
 	});
 	const phone = await getPhoneUser(req.query.UserId);
+	const photo = await getPhotoUser(req.query.UserId);
 	const description = await getDescriptionUser(req.query.UserId);
 
 	res.send({
+		photo: photo.secure_url,
 		phone,
 		description,
 		results: resultado.hits,
