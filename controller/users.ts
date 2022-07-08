@@ -57,8 +57,6 @@ export async function getPhotoUser(userId) {
 	if (results) {
 		const photo = results.data.photo;
 
-		console.log("SOY PHONE", photo);
-
 		return photo;
 	} else {
 		return null;
